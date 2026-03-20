@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+}
+
+.page{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  position:relative;
+  background: linear-gradient(135deg,#0b0f3f,#111d55,#0d1a44);
+  color:white;
+  overflow:hidden;
+}
+
+h1{
+  font-size:3rem;
+  font-family: 'Great Vibes', cursive;
+  color:white;
+  text-shadow: 0 0 20px #ff69b4,0 0 40px #ff1493;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+h2{ font-size:2rem; color:#93c5fd; margin-bottom:20px; }
+
+.letter{ max-width:600px; line-height:1.6; font-size:20px; font-family: 'Times New Roman', serif; }
+
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  background:#3a7bd5;
+  color:white;
+  margin-top:30px;
+  box-shadow:0 0 20px #2563eb;
+  animation: pulse 2.5s infinite;
+}
+
+button:hover{ transform: scale(1.05); }
+
+.gallery{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+.gallery img{
+  width:200px;
+  height:auto;
+  border-radius:20px;
+  box-shadow:0 0 20px rgba(38,97,210,0.7);
+  transition:transform 0.3s;
+}
+
+.gallery img:hover{ transform:scale(1.05); }
+
+.balloon{
+  position:absolute;
+  bottom:-150px;
+  width:40px;
+  height:50px;
+  border-radius:50%;
+  animation: float 10s linear infinite;
+  background: radial-gradient(circle at 30% 30%, #1e3a8a, #60a5fa);
+  box-shadow:0 0 15px #8ec5ff;
+}
+.balloon::after{
+  content:'';
+  position:absolute;
+  width:2px;
+  height:40px;
+  background:white;
+  bottom:-40px;
+  left:50%;
+}
+
+@keyframes float{0%{transform:translateY(0)} 100%{transform:translateY(-120vh)}}
+
+.confetti{
+  position:fixed;
+  width:10px;
+  height:10px;
+  top:-10px;
+  border-radius:50%;
+  animation:fall 4s linear infinite;
+}
+@keyframes fall{0%{transform:translateY(0)} 100%{transform:translateY(100vh)}}
+
+.star{ position:absolute; width:2px; height:2px; background:white; border-radius:50%; animation:twinkle 3s infinite alternate; }
+@keyframes twinkle{from{opacity:0.3;} to{opacity:1;}}
+
+.heart{ position:absolute; width:12px; height:12px; background:red; clip-path:polygon(50% 0%, 61% 10%, 70% 25%, 50% 100%, 30% 25%, 39% 10%); animation:heartfall linear infinite;} 
+@keyframes heartfall{0%{transform:translateY(0) rotate(0deg);} 100%{transform:translateY(100vh) rotate(360deg);}}
+
+@keyframes glow{ from{text-shadow:0 0 15px #ff69b4,0 0 30px #ff1493;} to{text-shadow:0 0 30px #ffb6c1,0 0 60px #ff69b4;} }
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(96,165,250,.5)} 70%{box-shadow:0 0 0 22px rgba(96,165,250,0)} 100%{box-shadow:0 0 0 0 rgba(96,165,250,0)} }
+.hidden{ display:none; }
+</style>
+</head>
+<body>
+
+<audio id="music" src="music/song.mp3"></audio>
+
+<div id="stars"></div>
+<div id="hearts"></div>
+
+<!-- PAGE 1 -->
+<div class="page" id="page1">
+  <h1>Happy Birthday My Love ❤️</h1>
+  <button onclick="startSurprise()">Click Here 👀</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hidden" id="page2">
+  <h2>My Favourite Moments With You 💙</h2>
+  <div class="gallery">
+    <img src="images/photo1.jpg">
+    <img src="images/photo2.jpg">
+    <img src="images/photo3.jpg">
+  </div>
+  <div style="margin-top:20px;">
+    <button onclick="prevPage('page1')">Back ⬅️</button>
+    <button onclick="nextPage()">Next 💌</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hidden" id="page3">
+  <h2>For You 💙</h2>
+  <div class="letter">
+    <p>Happy Birthday my love. From the moment you came into my life, everything started feeling a little brighter and a little more meaningful. Every laugh we share, every memory we create, and every small moment we spend together has become something I treasure deeply in my heart. You truly make my days happier just by being in them.</p>
+    <p>I hope this birthday reminds you how loved you are. You deserve every beautiful thing life has to offer, and I’m so grateful that I get to be a part of your journey. No matter where life takes us, I promise that the memories we create and the love we share will always mean the world to me. Happy birthday once again, my favourite person in the world. ❤️</p>
+  </div>
+  <div style="margin-top:20px;">
+    <button onclick="prevPage('page2')">Back ⬅️</button>
+  </div>
+</div>
+
+<script>
+// stars background
+for(let i=0;i<100;i++){
+  let s=document.createElement('div');
+  s.className='star';
+  s.style.left=Math.random()*100+'vw';
+  s.style.top=Math.random()*100+'vh';
+  s.style.width=(Math.random()*3+1)+'px';
+  s.style.height=(Math.random()*3+1)+'px';
+  document.getElementById('stars').appendChild(s);
+}
+
+// heart confetti for all pages
+function createHearts(){
+  for(let i=0;i<50;i++){
+    let h=document.createElement('div');
+    h.className='heart';
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(Math.random()*4+3)+'s';
+    document.getElementById('hearts').appendChild(h);
+  }
+}
+createHearts();
+
+function startSurprise(){
+  document.getElementById('page1').classList.add('hidden');
+  document.getElementById('page2').classList.remove('hidden');
+  document.getElementById('music').play();
+  createConfetti();
+}
+
+function nextPage(){
+  document.getElementById('page2').classList.add('hidden');
+  document.getElementById('page3').classList.remove('hidden');
+  createConfetti();
+  createBalloons();
+}
+
+function prevPage(pageId){
+  document.getElementById('page1').classList.add('hidden');
+  document.getElementById('page2').classList.add('hidden');
+  document.getElementById('page3').classList.add('hidden');
+  document.getElementById(pageId).classList.remove('hidden');
+}
+
+function createConfetti(){
+  for(let i=0;i<100;i++){
+    let c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=['#1e3a8a','#3b82f6','#60a5fa','#8ec5ff','#ffffff'][Math.floor(Math.random()*5)];
+    c.style.width=(Math.random()*6+4)+'px';
+    c.style.height=(Math.random()*6+4)+'px';
+    c.style.animationDuration=(Math.random()*3+3)+'s';
+    document.body.appendChild(c);
+  }
+}
+
+function createBalloons(){
+  for(let i=0;i<20;i++){
+    let b=document.createElement('div');
+    b.className='balloon';
+    b.style.left=Math.random()*100+'vw';
+    b.style.background='radial-gradient(circle at 30% 30%, #1e3a8a, #60a5fa)';
+    b.style.width=(Math.random()*25+25)+'px';
+    b.style.height=(Math.random()*30+35)+'px';
+    b.style.animationDuration=(Math.random()*6+6)+'s';
+    document.body.appendChild(b);
+  }
+}
+</script>
+
+</body>
+</html>
